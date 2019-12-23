@@ -19,16 +19,11 @@ testing$disease <- factor(testing$disease)
 # Training
 ctrl <- trainControl(method = 'repeatedcv', number = 10, repeats = 3)
 grid <- expand.grid(C = c( .01, .05, .1, .25, .5, .75, 1,1.25, 1.5, 1.75, 2.5))
-svm_Linear <- train(disease ~
-                    +sex
-                    +exerAngina 
-                    +coloredVessels
-                    +chestPainType
-                    +restECG
-                    +age
+svm_Linear <- train(disease ~ sex+chestPainType+exerAngina+slope+oldpeak+coloredVessels+thal
                     , data = training, method = 'svmLinear',
                     trControl = ctrl,
                     preProcess = c('center', 'scale'),
+                    metric = 'Accuracy',
                     tuneGrid = grid,
                     tuneLength = 10)
 

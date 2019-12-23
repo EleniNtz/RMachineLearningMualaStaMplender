@@ -19,7 +19,7 @@ ranFor <- function(heart) {
                        summaryFunction = multiClassSummary,
                        classProbs = T)
   
-  random_Forest <- train(disease ~ ., data = training, method = 'rf',
+  random_Forest <- train(disease ~ sex+chestPainType+exerAngina+slope+oldpeak+coloredVessels+thal, data = training, method = 'rf',
                       trControl = ctrl,
                       preProcess = c('center', 'scale'),
                       metric = 'Accuracy',

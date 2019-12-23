@@ -55,10 +55,15 @@ ui <- fluidPage(
                   
                   ), 
                           
-                  tabPanel('Statistical Results'),
+                  tabPanel('Statistical Results',
+                           helpText("P-Values of all the features extracted",
+                                    "by a chi^2 test. The variables chosen ",
+                                    "for the models are those with p-value < e-3."),
+                           tableOutput(outputId = "pValues")),
                   tabPanel('Classifier Result',
                            
-                           textOutput('clasresult'),
+                           helpText('1 Negative for coronary disease',
+                                    '2 Positive for coronary disease'),
                            
                            fluidRow(tableOutput(outputId = "cmRes")),
                            fluidRow(
@@ -127,6 +132,21 @@ server <- function(input, output) {
             ylab = names(which(namesChoice==input$selectBoxY)))
     })
   })
+  output$pValues <- renderTable({cbind(c('Age', 'Sex', 'Chest Pain Type (4 Values)',
+                                         'Resting Blood Pressure', 'Serum Cholesterol (mg/dl)',
+                                         'Fasting Blood Sugar > 120 mg/dl',
+                                         'Resting ECG Results (0, 1, 2)',
+                                         'Max Heart Rate Achieved' ,'Exercise Induced Angina',
+                                         'ST depression induced by exercise relative to rest',
+                                         'Slope of the peak exercise ST segment',
+                                         'Major Vessels Colored (0-3)',
+                                         'Thalassemia' ),
+                                       c(0.12,1.93e-06,8.56e-15,0.59,0.08,0.92,
+                                         0.01,0.14,1.38e-11,2.00e-04,1.71e-09,
+                                         1.44e-14,6.42e-17))},
+    colnames=F
+
+  )
 "  observeEvent(input$selectClass==2, {
        if(!is.null(heart$variable)){
        'if(is.null(a)) {
